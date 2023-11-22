@@ -1,0 +1,715 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('laporan', function (Blueprint $table) {
+            $table->id();
+            $table->string('keterangan');
+            $table->date('tanggal');
+            $table->unsignedBigInteger('pengeluaran_id');
+            $table->foreign('pengeluaran_id')->references('id')->on('pengeluaran');
+            $table->unsignedBigInteger('pemasukan_id');
+            $table->foreign('pemasukan_id')->references('id')->on('pemasukan');
+            $table->unsignedBigInteger('piutang_id');
+            $table->foreign('piutang_id')->references('id')->on('piutang');
+            $table->unsignedBigInteger('asset_id');
+            $table->foreign('asset_id')->references('id')->on('asset');
+            $table->unsignedBigInteger('dana_darurat_id');
+            $table->foreign('dana_darurat_id')->references('id')->on('dana_darurat');
+            $table->unsignedBigInteger('rencana_budget_id');
+            $table->foreign('rencana_budget_id')->references('id')->on('rencana_budget');
+            $table->unsignedBigInteger('hutang_id');
+            $table->foreign('hutang_id')->references('id')->on('hutang');
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('laporan');
+    }
+};
+
+@if(count($hutangHariIni) > 0)
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Nama</th>
+                    <th>Jumlah</th>
+                    <th>Catatan</th>
+                    <th>Tanggal Hutang</th>
+                    <th>Tanggal Jatuh Tempo</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($hutangHariIni as $hutang)
+                    <tr>
+                        <td>{{ $hutang->nama }}</td>
+                        <td>{{ $hutang->jumlah }}</td>
+                        <td>{{ $hutang->catatan }}</td>
+                        <td>{{ $hutang->tgl_hutang }}</td>
+                        <td>{{ $hutang->tgl_jthtempo }}</td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    @else
+        <p>Tidak ada Hutang yang jatuh tempo hari ini.</p>
+    @endif
+
+    Route::get('laporan', [LaporanController::class, 'laporanHariIni']);
+
+    $hari1 = date("Y-m-d");
+$hutangHariIni = []; // Array untuk menyimpan nama Hutang
+
+foreach ($data3 as $waktu) {
+    if ($hari1 === $waktu->tgl_jthtempo) {
+        // Jika tanggal hari ini sama dengan tanggal jatuh tempo
+        // Simpan nama Hutang ke dalam array
+        $hutangHariIni[] = $waktu->nama;
+    }
+}
+
+// Output array Hutang yang jatuh tempo hari ini
+return view('laporan', ['hutangHariIni' => $hutangHariIni]);
+
+@if (!empty($hutangHariInI))
+@foreach ($hutangHariInI as $hutangX)
+    <tr> 
+        <td>{{ $hutangX['nama'] }}</td>
+        <td>{{ $hutangX['jumlah'] }}</td>
+    </tr>
+@endforeach
+@else
+<tr>
+    <td>Tidak ada</td>
+    <td>Tidak ada</td>
+</tr>
+@endif
+
+// public/js/modul.js
+
+   document.addEventListener('DOMContentLoaded', function () {
+    // Get the modal element
+    var modul = document.getElementById('myModul');
+
+    // Get the button that opens the modal
+    var btn = document.getElementById('showModulButton');
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName('close')[0];
+
+    // When the user clicks the button, open the modal
+    btn.onclick = function () {
+        modul.style.display = 'block';
+    };
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function () {
+        modul.style.display = 'none';
+    };
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+        if (event.target == modul) {
+            modul.style.display = 'none';
+        }
+    };
+
+    
+});
+</script>
+
+
+<div id="myModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <p>Keterangan Anda di sini.</p>
+    </div>
+</div>
+<div id="myModul" class="modul">
+    <div class="modul-content">
+        <span class="close">&times;</span>
+        <form action="{{ route('auth.logout') }}" method="POST">
+            @csrf
+            <button type="submit" class="nav-link btn btn-warning">Logout</button>
+          </form>
+    </div>
+</div>
+    .modal                                                                                                                                                                                                                                .modal {
+        display: none;
+        position: fixed;
+        height: 18rem;
+        width: 13rem;
+        top: 17%;
+        left: 87%;
+        transform: translate(-50%, -50%);
+        padding: 20px;
+        background-color: #fff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+        border-radius: 10px;
+        z-index:999999999 ;
+    }
+    .modul {
+        display: none;
+        position: fixed;
+        height: 18rem;
+        width: 13rem;
+        top: 17%;
+        left: 87%;
+        transform: translate(-50%, -50%);
+        padding: 20px;
+        background-color: #fff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+        border-radius: 10px;
+        z-index:999999999 ;
+    }                                                                                                                                                                                                              <script>
+    // public/js/modal.js
+
+    document.addEventListener('DOMContentLoaded', function () {
+    // Get the modal element
+    var modal = document.getElementById('myModal');
+
+    // Get the button that opens the modal
+    var btn = document.getElementById('showModalButton');
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName('close')[0];
+
+    // When the user clicks the button, open the modal
+    btn.onclick = function () {
+        modal.style.display = 'block';
+    };
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function () {
+        modal.style.display = 'none';
+    };
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = 'none';
+        }
+    };
+});
+</script>
+<script>
+
+   // public/js/modul.js
+
+   document.addEventListener('DOMContentLoaded', function () {
+    // Get the modal element
+    var modul = document.getElementById('myModul');
+
+    // Get the button that opens the modal
+    var btn1 = document.getElementById('showModulButton');
+
+    // Get the <span> element that closes the modal
+    var span1 = document.getElementsByClassName('close')[0];
+
+    // When the user clicks the button, open the modal
+    btn1.onclick = function () {
+        modul.style.display = 'block';
+    };
+
+    // When the user clicks on <span> (x), close the modal
+    span1.onclick = function () {
+        modul.style.display = 'none';
+    };
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+        if (event.target == modul) {
+            modul.style.display = 'none';
+        }
+    };
+});
+
+</script>  
+
+$XT = $hutangHariInI;
+        return view('layouts.separete.header', compact('XT')); 
+
+document.addEventListener('DOMContentLoaded', function () {
+    // Get the modal element
+    var modal = document.getElementById('myModal');
+    var modul = document.getElementById('myModul');
+
+    // Get the button that opens the modal
+    var btn = document.getElementById('showModalButton');
+    var btn1 = document.getElementById('showModulButton');
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName('close')[0];
+
+    // When the user clicks the button, open the modal
+    btn.onclick = function () {
+        modal.style.display = 'block';
+    };
+
+    btn1.onclick = function () {
+        modul.style.display = 'block';
+    };
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function () {
+        modal.style.display = 'none';
+        modul.style.display = 'none';
+    };
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+        if (event.target == modal || event.target == modul) {
+            modal.style.display = 'none';
+            modul.style.display = 'none';
+        }
+    };
+});
+
+// New function to close the modul
+window.closeModul = function () {
+    var modul = document.getElementById('myModul');
+    modul.style.display = 'none';
+};
+
+<div id="myModul" class="modul">
+    <div class="modul-content">
+        <span class="close" onclick="closeModul()">&times;</span>
+        <p>Nama : {{ Auth::user()->name }}</p>
+        <p>{{ Auth::user()->email }}</p>
+        <form action="{{ route('auth.logout') }}" method="POST">
+            @csrf
+            <button type="submit" class="nav-link btn btn-warning">Logout</button>
+        </form>
+    </div>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    // Ambil total pengeluaran dan sisa dari PHP
+    var totalPengeluaran = {{ $totalPengeluaran }};
+    var sisa = {{ $sisa }};
+
+    // Data untuk grafik Pie Chart
+    var data = {
+        labels: ['Pengeluaran', 'Sisa'],
+        datasets: [{
+            data: [totalPengeluaran, sisa],
+            backgroundColor: ['#FF6384', '#FFCE56'],
+        }]
+    };
+
+    // Konfigurasi untuk grafik
+    var options = {
+        responsive: true,
+        maintainAspectRatio: false,
+        legend: {
+            display: false, // Menyembunyikan legend
+        },
+    };
+
+    // Ambil elemen canvas
+    var ctx = document.getElementById('pieChart').getContext('2d');
+
+    // Buat grafik Pie Chart
+    var myPieChart = new Chart(ctx, {
+        type: 'pie',
+        data: data,
+        options: options,
+    });
+});
+</script>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <canvas id="myChart1"></canvas><br>
+    <canvas id="myChart2"></canvas> 
+</body>
+<script>
+        //Pemasukan
+        var ctx = document.getElementById('myChart1').getContext('2d');
+        var pemasukanData = @json($pemasukanData);
+
+        var myChart1 = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: pemasukanData.map(item => item.nama),
+                datasets: [{
+                    label: 'Grafik Pemasukan',
+                    data: pemasukanData.map(item => item.jumlah),
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1 
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        //Pengeluaran
+        var ctx = document.getElementById('myChart2').getContext('2d');
+        var pengeluaranData = @json($pengeluaranData);
+
+        var myChart2 = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: pengeluaranData.map(item => item.nama),
+                datasets: [{
+                    label: 'Grafik Pengeluaran',
+                    data: pengeluaranData.map(item => item.jumlah),
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'aqua',
+                    borderWidth: 1 
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var pengeluaranData = @json($pengeluaranData);
+            var pemasukanData = @json($pemasukanData);
+
+            var labels = Array.from({ length: 12 }, (_, i) => (i + 1).toString());
+
+            var data = {
+                labels: labels,
+                datasets: [
+                    {
+                        label: 'Pengeluaran',
+                        backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                        borderColor: 'rgb(255, 99, 132)',
+                        borderWidth: 1,
+                        data: pengeluaranData.map(item => item.total || 0),
+                    },
+                    {
+                        label: 'Pemasukan',
+                        backgroundColor: 'rgba(75, 192, 192, 0.5)',
+                        borderColor: 'rgb(75, 192, 192)',
+                        borderWidth: 1,
+                        data: pemasukanData.map(item => item.total || 0),
+                    },
+                ],
+            };
+
+            var options = {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                    },
+                    y: {
+                        beginAtZero: true,
+                    },
+                },
+            };
+
+            var ctx = document.getElementById('barChart').getContext('2d');
+            var myBarChart = new Chart(ctx, {
+                type: 'bar',
+                data: data,
+                options: options,
+            });
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var pengeluaranData = @json($pengeluaranData);
+            var pemasukanData = @json($pemasukanData);
+
+            // Menggunakan moment.js untuk mengubah angka bulan menjadi nama bulan
+            var labels = moment.months();
+
+            var data = {
+                labels: labels,
+                datasets: [
+                    {
+                        label: 'Pengeluaran',
+                        backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                        borderColor: 'rgb(255, 99, 132)',
+                        borderWidth: 1,
+                        data: pengeluaranData.map(item => item.total || 0),
+                    },
+                    {
+                        label: 'Pemasukan',
+                        backgroundColor: 'rgba(75, 192, 192, 0.5)',
+                        borderColor: 'rgb(75, 192, 192)',
+                        borderWidth: 1,
+                        data: pemasukanData.map(item => item.total || 0),
+                    },
+                ],
+            };
+
+            var options = {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                    },
+                    y: {
+                        beginAtZero: true,
+                    },
+                },
+            };
+
+            var ctx = document.getElementById('barChart').getContext('2d');
+            var myBarChart = new Chart(ctx, {
+                type: 'bar',
+                data: data,
+                options: options,
+            });
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var pengeluaranData = @json($pengeluaranData);
+            var pemasukanData = @json($pemasukanData);
+
+            // Menggunakan moment.js untuk mengubah angka bulan menjadi nama bulan
+            var labels = moment.months();
+
+            var data = {
+                labels: labels,
+                datasets: [
+                    {
+                        label: 'Pengeluaran',
+                        backgroundColor: '#F44336',
+                        borderColor: 'rgb(255, 99, 132)',
+                        borderWidth: 1,
+                        data: pengeluaranData.map(item => item.total || 0),
+                    },
+                    {
+                        label: 'Pemasukan',
+                        backgroundColor: '#90A4AE ',
+                        borderColor: 'rgb(75, 192, 192)',
+                        borderWidth: 1,
+                        data: pemasukanData.map(item => item.total || 0),
+                    },
+                ],
+            };
+
+            var options = {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                    },
+                    y: {
+                        beginAtZero: true,
+                    },
+                },
+            };
+
+            var ctx = document.getElementById('barChart').getContext('2d');
+            var myBarChart = new Chart(ctx, {
+                type: 'bar',
+                data: data,
+                options: options,
+            });
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var pengeluaranData = @json($pengeluaranData);
+            var pemasukanData = @json($pemasukanData);
+
+            // Menggunakan moment.js untuk mengubah angka bulan menjadi nama bulan
+            var labels = moment.months();
+            var currentYear = moment().year();
+
+            var datasets = [
+                {
+                    label: 'Pengeluaran',
+                    backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                    borderColor: 'rgb(255, 99, 132)',
+                    borderWidth: 1,
+                    data: initializeDataArray(),
+                },
+                {
+                    label: 'Pemasukan',
+                    backgroundColor: 'rgba(75, 192, 192, 0.5)',
+                    borderColor: 'rgb(75, 192, 192)',
+                    borderWidth: 1,
+                    data: initializeDataArray(),
+                },
+            ];
+
+            // Mengisi array data berdasarkan data yang diterima dari server
+            pengeluaranData.forEach(function (item) {
+                var index = moment.months().indexOf(item.bulan);
+                datasets[0].data[index] = item.total || 0;
+            });
+
+            pemasukanData.forEach(function (item) {
+                var index = moment.months().indexOf(item.bulan);
+                datasets[1].data[index] = item.total || 0;
+            });
+
+            function initializeDataArray() {
+                return Array(labels.length).fill(0);
+            }
+
+            var data = {
+                labels: labels,
+                datasets: datasets,
+            };
+
+            var options = {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                    },
+                    y: {
+                        beginAtZero: true,
+                    },
+                },
+            };
+
+            var ctx = document.getElementById('barChart').getContext('2d');
+            var myBarChart = new Chart(ctx, {
+                type: 'bar',
+                data: data,
+                options: options,
+            });
+
+            function updateChart() {
+                // Ambil tahun yang dipilih oleh pengguna
+                var selectedYear = document.getElementById('year').value;
+
+                // Lakukan permintaan AJAX atau sesuaikan sumber data sesuai dengan tahun yang dipilih
+                // ...
+
+                // Setelah mendapatkan data yang baru, perbarui dataset dan chart
+                // ...
+
+                // Contoh: Hanya memberi tahu bahwa Anda perlu memperbarui dataset dan memanggil update
+                console.log('Update chart for year ' + selectedYear);
+            }
+
+            window.updateChart = updateChart;
+        });
+
+        
+    </script>
+     <form id="yearForm">
+        <label for="year">Pilih Tahun: </label>
+        <select id="year" name="year">
+            <!-- Tambahkan opsi tahun, misalnya dari tahun 2021 hingga tahun sekarang -->
+            @for ($i = date('Y'); $i >= 2021; $i--)
+                <option value="{{ $i }}">{{ $i }}</option>
+            @endfor
+        </select>
+        <button type="button" onclick="updateChart()">Ganti Tahun</button>
+    </form>
+        <canvas id="barChart"></canvas>
+
+        <form action="{{ url('/bulan') }}" method="get">
+        <label for="year">Pilih Tahun:</label>
+        <select name="year" id="year" onchange="this.form.submit()">
+            @for ($i = now()->year; $i >= 2020; $i--)
+                <option value="{{ $i }}" {{ $selectedYear == $i ? 'selected' : '' }}>{{ $i }}</option>
+            @endfor
+        </select>
+    </form>
+
+
+    <?php
+use App\Models\Pemasukan;
+use App\Models\Pengeluaran;
+use Carbon\Carbon;  
+
+$pengeluaran = Pengeluaran::all();
+$pemasukan = Pemasukan::all();
+
+$combinedData = $pengeluaran->merge($pemasukan);
+$groupedData = $combinedData->groupBy('tanggal');
+
+$totals = [];
+foreach ($groupedData as $tanggal => $data) {
+    $totals[$tanggal]['total_pemasukan'] = $data->whereInstanceOf(Pemasukan::class)->sum('jumlah');
+    $totals[$tanggal]['total_pengeluaran'] = $data->whereInstanceOf(Pengeluaran::class)->sum('jumlah');
+    $totals[$tanggal]['hari'] = Carbon::parse($tanggal)->format('l'); // Mendapatkan hari dari tanggal
+}
+
+
+<table border="1">
+        <thead>
+            <tr>
+                <th>Tanggal</th>
+                <th>Data</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach($groupedData as $tanggal => $data)
+                <tr>
+                    <td>{{ $tanggal }}</td>
+                    <td>
+                        <ul>
+                            @foreach($data as $item)
+                                <li>{{ $item->nama }} - {{ $item->jumlah }}</li>
+                                <!-- Tambahkan detail data lainnya sesuai kebutuhan -->
+                            @endforeach
+                        </ul>
+                    </td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
+<table class="data-table">
+        <thead>
+        @foreach($groupedData as $tanggal => $data)
+                <tr>
+                @foreach($totals as $tanggal => $data)
+                <td>{{ $tanggal . ' ' . $data['hari'] }}</td>
+                <td>{{ $data['total_pemasukan'] }}</td>
+                <td>{{ $data['total_pengeluaran'] }}</td>
+                @endforeach
+            </tr>
+            </thead>
+            <tbody>
+            @foreach($data as $item)
+                <tr> 
+                    <td>{{ $item->nama }}</td>
+                    <td>{{ $item->katagori }}</td>
+                    <td>{{ $item->jumlah }}</td>
+                </tr>
+                @endforeach
+            </tbody>
+            @endforeach
