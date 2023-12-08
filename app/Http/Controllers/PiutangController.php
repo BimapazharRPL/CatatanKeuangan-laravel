@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Piutang;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PiutangController extends Controller
 {
@@ -15,7 +16,9 @@ class PiutangController extends Controller
 
     public function create()
     {
+        if (Auth::check() && in_array(Auth::user()->status, ['Bapak/Admin', 'Ibu/Anggota'])) {
         return view('piutang.create');
+        }
     }
 
     public function store(Request $request)
@@ -41,7 +44,9 @@ class PiutangController extends Controller
 
     public function edit(Piutang $piutang)
     {
+        if (Auth::check() && in_array(Auth::user()->status, ['Bapak/Admin', 'Ibu/Anggota'])) {
         return view('piutang.edit', compact('piutang'));
+        }
     }
 
     public function update(Request $request, Piutang $piutang)

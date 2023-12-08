@@ -196,6 +196,14 @@ $hari1 = date("Y-m-d");
         .data-table tbody tr:nth-child(even) {
             background-color: #f2f2f2;
         }
+        canvas {
+            background-color: #ffff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);              max-width: 100%;
+            margin-top: 1rem;
+            width: 700rem;
+            height: auto;
+        }
 
         /* canvas {
             background-color: #fff;

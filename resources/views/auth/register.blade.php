@@ -14,28 +14,31 @@
             <form action="{{ route('auth.store') }}" method="post">
         @csrf
                 <div class="form-group">
-                    
                     <input type="text" id="username" name="name" required placeholder="Username">
                 </div>
                 @error('name')
           <div class="alert">{{ $message }}</div>
         @enderror
                 <div class="form-group">
-                   
                     <input type="email" id="email" name="email" required placeholder="Email">
                 </div>
                 @error('email')
           <div class="alert">{{ $message }}</div>
         @enderror
+        <div class="form-group">
+            <select name="status"  required>
+        <option value="Bapak/Admin">Bapak/Admin</option>   
+        <option value="Ibu/Anggota">Ibu/Anggota</option>
+        <option value="Anak">Anak</option>
+        </select> 
+                </div>
                 <div class="form-group">
-                  
                   <input type="password" id="password" name="password" required  placeholder="Password">
               </div>
               @error('password')
           <div class="alert">{{ $message }}</div>
         @enderror
-              <div class="form-group">
-                
+              <div class="form-group"> 
                   <input type="password" id="confirm-password" name="password_confirmation" required  placeholder="Confirm Password">
               </div>
               <button type="submit">Sign Up</button>
@@ -89,7 +92,6 @@ h2 {
     justify-content: center;
 }
 
-
 input[type="text"],
 input[type="email"],
 input[type="password"] {
@@ -102,6 +104,13 @@ input[type="password"] {
 
 }
 
+select {
+    width: 84%;
+    padding: 10px;
+    border: 1px solid #ffff;
+    border-radius: 10px;
+    font-size: 16px;
+}
 button {
     background-color: #19eefd;
     border: none;

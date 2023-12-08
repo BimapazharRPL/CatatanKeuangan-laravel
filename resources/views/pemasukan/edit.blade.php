@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+<title>Form Edit</title>
+    <link rel="icon" type="image/png" href="{{ asset('gambar/logoku.png') }}">
 </head>
 <body>
 <div class="container">
@@ -32,7 +33,7 @@
         <option value="Gaji">Gaji</option>   
         <option value="Bonus">Bonus</option>
         <option value="Deposito">Deposito</option>
-        <option value="Peng hargaan">Penghargaan</option>
+        <option value="Penghargaan">Penghargaan</option>
         <option value="Investasi">Investasi</option>
         <option value="Dana pensiun">Dana pensiun</option>
         <option value="Hadiah">Hadiah</option>

@@ -19,7 +19,17 @@ class TahunController extends Controller
         ->groupBy('tahun')
         ->get();
 
-    return view('tahun', compact('pemasukanTahun', 'pengeluaranTahun'));
+        $dataPerTahun = [];
+        foreach ($pemasukanTahun as $pemasukan) {
+            $dataPerTahun[$pemasukan->tahun]['total_pemasukan'] = $pemasukan->total_pemasukan;
+            $dataPerTahun[$pemasukan->tahun]['tahun'] = $pemasukan->tahun;
+        }
+
+        foreach ($pengeluaranTahun as $pengeluaran) {
+            $dataPerTahun[$pengeluaran->tahun]['total_pengeluaran'] = $pengeluaran->total_pengeluaran;
+            $dataPerTahun[$pengeluaran->tahun]['tahun'] = $pengeluaran->tahun;
+        }
+    return view('tahun', compact('dataPerTahun'));
      }
     
 

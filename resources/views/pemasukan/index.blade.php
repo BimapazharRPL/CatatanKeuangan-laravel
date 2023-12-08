@@ -14,16 +14,17 @@
     
 <div class="ab">
 <h1>Pemasukan</h1>
-
+@if(Auth::check() && Auth::user()->status == 'Bapak/Admin')
 <a href="{{ route('pemasukan.create') }}" class="btn btn-primary mb-3">+ Create New pemasukan</a>
+@endif
 <table class="table table-head-fixed text-nowrap">
+
    
     <thead>
         <tr>
             <th>No</th>
             <th>Nama</th>
             <th>Jumlah</th>
-            <th>Catatan</th>
             <th>Tanggal</th>
             <th>Kategori</th>
             <th>Action</th>
@@ -36,17 +37,18 @@
             <td>{{ $key + 1 }}</td>
             <td>{{ $pemasukan->nama }}</td>
             <td>{{ $pemasukan->jumlah }}</td>
-            <td>{{ $pemasukan->catatan }}</td>
             <td>{{ $pemasukan->tanggal }}</td>
             <td>{{ $pemasukan->katagori }}</td>
             <td>
-                <!-- <a href="{{ route('pemasukan.show', $pemasukan->id) }}" class="btn btn-sm btn-info">Show</a> -->
+                <a href="{{ route('pemasukan.show', $pemasukan->id) }}" class="btn btn-sm btn-info">Show</a>
+                @if(Auth::check() && Auth::user()->status == 'Bapak/Admin')
                 <a href="{{ route('pemasukan.edit', $pemasukan->id) }}" class="btn btn-sm btn-warning">Edit</a>
                 <form action="{{ route('pemasukan.destroy', $pemasukan->id) }}" method="POST" style="display: inline-block;">
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="btn btn-sm btn-danger">Delete</button>
                 </form>
+                @endif
             </td>
         </tr>
        
@@ -160,12 +162,12 @@
             border-color: #17a2b8;
         }
 
-        /* .btn:hover {
+        .btn-info:hover {
             color: #fff;
             text-decoration: none;
             background-color: #138496;
             border-color: #117a8b;
-        } */
+        }
 
 
         .text-center {

@@ -26,6 +26,7 @@ class AuthController extends Controller
         $request->validate([
             'name'  => 'required|string|max:250',
             'email' => 'required|email|max:250|unique:users,email',
+            'status'  => 'required|string',
             'password'  => 'required|min:8'
         ]);
 
@@ -33,6 +34,7 @@ class AuthController extends Controller
         $user->create([
             'name'  => $request->name,
             'email' => $request->email,
+            'status' => $request->status,
             'password'  => Hash::make($request->password)
         ]);
 

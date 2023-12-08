@@ -9,13 +9,13 @@ class Asset extends Model
 {
     protected $fillable = [
         'nama',
-        'jenis', 
-        'jumlah', 
-        
+        'harga', 
+        'keterangan', 
+        'tanggal',  
     ];
 
-    public function laporan()
-    {
-        return $this->hasMany(Laporan::class);
-    }
+    // public function laporan()
+    // {
+    //     return $this->hasMany(Laporan::class);
+    // }
 }

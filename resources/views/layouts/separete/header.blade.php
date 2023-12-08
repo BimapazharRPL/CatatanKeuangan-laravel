@@ -41,8 +41,8 @@ $hari1 = date("Y-m-d");
     <img src="gambar/logonama.png" alt="">
     
     <div class="ic">
-    <img src="gambar/notip.png" id="showModalButton">
-    <img src="gambar/icon profile.png" id="showModulButton">
+    <img src="gambar/notip.png" id="showModalButton" title="notifikasi">
+    <img src="gambar/icon profile.png" id="showModulButton" title="akun">
     </div>
 </div>
 <!-- resources/views/layouts/modal.blade.php -->
@@ -106,15 +106,6 @@ $hari1 = date("Y-m-d");
     </div>
 </div>
 <style>
-        canvas {
-                    background-color: #fff;
-                    border-radius: 8px;
-                    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-                    max-width: 100%;
-                    margin-top: 1rem;
-                    width: 700rem;
-                    height: auto;
-                }
         .not {
             width: 100%;
             border-collapse: collapse;

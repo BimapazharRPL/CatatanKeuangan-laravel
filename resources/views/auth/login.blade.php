@@ -5,9 +5,59 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="gambar/logoku.png">
     <title>Login Page</title>
-    
+    <script src="https://www.gstatic.com/firebasejs/9.6.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.2/firebase-auth.js"></script>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.2/firebase-app.js";
+        import { getAuth, signInWithPopup } from "https://www.gstatic.com/firebasejs/9.6.2/firebase-auth.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.6.2/firebase-analytics.js";
+        import { GoogleAuthProvider, FacebookAuthProvider } from "https://www.gstatic.com/firebasejs/9.6.2/firebase-auth.js";
+
+        // Konfigurasi Firebase untuk aplikasi web Anda
+        const firebaseConfig = {
+            apiKey: "AIzaSyD8YrHjAgCrqO5uPC8sGvGlV3Yqq6rSoBA",
+            authDomain: "catatankeuangan-laravel.firebaseapp.com",
+            projectId: "catatankeuangan-laravel",
+            storageBucket: "catatankeuangan-laravel.appspot.com",
+            messagingSenderId: "883592043333",
+            appId: "1:883592043333:web:91e2eb8011546159d9bc2c",
+            measurementId: "G-B72KN879G8"
+        };
+
+        // Inisialisasi Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const auth = getAuth();
+    </script>
 </head>
 <body>
+    <!-- <script type="module">
+        function signInWithGoogle() {
+            const provider = new GoogleAuthProvider();
+            signInWithPopup(auth, provider)
+                .then((result) => {
+                    const user = result.user;
+                    console.log(user);
+                    // Mengelola data pengguna, misalnya mengirimkannya ke backend Laravel Anda
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
+        }
+
+        function signInWithFacebook() {
+            const provider = new FacebookAuthProvider();
+            signInWithPopup(auth, provider)
+                .then((result) => {
+                    const user = result.user;
+                    console.log(user);
+                    // Mengelola data pengguna, misalnya mengirimkannya ke backend Laravel Anda
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
+        }
+    </script> -->
     <div class="login-container">
         <h2>Login</h2>
         <form action="{{route('auth.authentication') }}" method="post">
@@ -24,15 +74,23 @@
                 <input type="password" id="password" name="password" required autocomplete="current-password">
             </div>
             <p>or</p><br>
-            <div class="log"><a href="">
+            <div class="log"><a href="/auth/google/redirect">
                 <img src="gambar/icon google.png" alt="">
                 <p> Lanjut dengan akun google</p></a>
             </div><br>
-            <div class="log"><a href="">
+            <div class="log"><a href="{{ route('auth.facebook') }}">
                 <img src="gambar/iconFB.png" alt="">
                 <p> Lanjut dengan akun fecebook</p></a>
-            </div><br><br>
-            <button type="submit">Login</button>          
+            </div>
+            <!-- <div class="google-login" onclick="signInWithGoogle()">
+            <img src="gambar/icon google.png" alt="">
+            Lanjut dengan Google</div>
+            <br>
+            <div class="facebook-login" onclick="signInWithFacebook()">
+            <img src="gambar/iconFB.png" alt="">
+            Lanjut dengan Facebook</div>  -->
+            <br><br>
+            <button class="login" type="submit">Login</button>          
         </form>
         <p>don't have an account yet ? <a href="/register">Sign Up</a></p>
     </div>
@@ -73,7 +131,11 @@ p a {
     margin: 20px 0;
     text-align: left;
 }
-
+/* img {
+    width: 20px;
+    border-radius: 50%;
+    margin-right: 7px;
+} */
 label {
     display: block;
     margin-bottom: 5px;
@@ -87,7 +149,7 @@ input[type="password"] {
     border: 1px solid #ccc;
     border-radius: 10px;
 }
-button {
+.login {
     background-color: #19eefd;
     color: black;
     padding: 10px 20px;
@@ -97,11 +159,30 @@ button {
     font-size: 16px;
 }
 
-button:hover {
+.login:hover {
     background-color: #267b81;
     color: white;
 }
-.log {
+
+/* .google-login,
+.facebook-login {
+    cursor: pointer;
+    padding: 8px;
+    background-color: #4285F4; 
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+
+  .facebook-login {
+    background-color: #3b5998; 
+  } */
+  .log {
     height: 2rem;
     box-shadow: 5px 5px 5px 5px rgba(0, 0, 0, 0.2);
     width: 80%;
@@ -116,8 +197,15 @@ button:hover {
 }
 .log img {
     height: 1.2rem;
-    border-radius: 80rem:
-    
+    border-radius: 80rem;
+    margin-right: 7px;
+}
+.log a {
+    display: flex;
+    align-items:center;
+    justify-content: center;
+    text-decoration: none; 
+    font-size: 0.8rem;
 }
 .log a {
     display: flex;
@@ -129,6 +217,7 @@ button:hover {
 .log p {
     color: #000;
 }
+
 .al{
     color: red;
 }

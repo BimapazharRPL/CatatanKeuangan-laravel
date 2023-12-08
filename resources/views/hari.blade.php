@@ -11,7 +11,7 @@
 @section('content')
 <body>
     <div class="am">
-
+    @if(count($groupedData) > 0)
     <table class="data-table">
     <!-- <thead>
         <tr>
@@ -28,7 +28,42 @@
             @endphp
             <thead>
             <tr>
-                <th colspan="3" style="text-align: center;">{{ $tanggal }} {{ $totals[$tanggal]['hari'] }}</th>
+            <th colspan="3" style="text-align: center;">
+    @php
+        $namaHari = $totals[$tanggal]['hari'];
+        $tanggalObj = \DateTime::createFromFormat('Y-m-d', $tanggal);
+        $formattedDate = $tanggalObj->format('d M Y');
+        
+        switch ($namaHari) {
+            case 'Monday':
+                echo 'Senin';
+                break;
+            case 'Tuesday':
+                echo 'Selasa';
+                break;
+            case 'Wednesday':
+                echo 'Rabu';
+                break;
+            case 'Thursday':
+                echo 'Kamis';
+                break;
+            case 'Friday':
+                echo 'Jum\'at';
+                break;
+            case 'Saturday':
+                echo 'Sabtu';
+                break;
+            case 'Sunday':
+                echo 'Minggu';
+                break;
+            default:
+                echo $namaHari; // Jika tidak cocok, tampilkan nilai aslinya
+        }
+    @endphp
+    {{ $formattedDate }}
+</th>
+
+
                 <!-- <th>{{ $totals[$tanggal]['hari'] }}</th> -->
                 <!-- <td>
                     @foreach($data as $item)
@@ -64,7 +99,9 @@
         @endforeach
     </tbody>
 </table>
-
+@else
+            <h3>Belum ada data</h3>
+        @endif
 
 </div>
 </body>
@@ -97,6 +134,11 @@
     .data-table th {
         background-color: aqua;
         color: black;
+    }
+
+    h3 {
+        color: #a2a5a6;
+        margin-top: 12rem;
     }
 
     @media only screen and (max-width: 600px) {

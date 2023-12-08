@@ -11,15 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('transaksis', function (Blueprint $table) {
+        Schema::create('roles', function (Blueprint $table) {
             $table->id();
-            $table->date('tanggal');
-            $table->string('deskripsi');
-            $table->decimal('jumlah', 10, 2);
-            // $table->unsignedBigInteger('katagori_id');
-            // $table->foreign('katagori_id')->references('id')->on('katagoris');
-           
-            
+            $table->enum('role',['user','admin'])->default('user');
             $table->timestamps();
         });
     }
@@ -29,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('transaksis');
+        Schema::dropIfExists('roles');
     }
 };

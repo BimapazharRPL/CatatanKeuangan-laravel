@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Hutang;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HutangController extends Controller
 {
@@ -15,7 +16,9 @@ class HutangController extends Controller
 
     public function create()
     {
-        return view('hutang.create');
+        if (Auth::check() && in_array(Auth::user()->status, ['Bapak/Admin', 'Ibu/Anggota'])) {
+            return view('hutang.create');
+        }
     }
 
     public function store(Request $request)
@@ -41,7 +44,9 @@ class HutangController extends Controller
 
     public function edit(Hutang $hutang)
     {
-        return view('hutang.edit', compact('hutang'));
+        if (Auth::check() && in_array(Auth::user()->status, ['Bapak/Admin', 'Ibu/Anggota'])) {
+            return view('hutang.edit', compact('hutang'));
+        }
     }
 
     public function update(Request $request, Hutang $hutang)

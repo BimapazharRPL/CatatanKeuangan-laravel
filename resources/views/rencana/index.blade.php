@@ -133,6 +133,7 @@ $sisa = $totalPemasukan - $totalPengeluaran;
 
         h1 {
             color: #333;
+            font-family: Candara;
         }
 
         a {

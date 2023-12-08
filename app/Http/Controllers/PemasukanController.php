@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Pemasukan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PemasukanController extends Controller
 {
@@ -15,7 +16,9 @@ class PemasukanController extends Controller
 
     public function create()
     {
+        if (Auth::check() && Auth::user()->status === 'Bapak/Admin') {
         return view('pemasukan.create');
+        }
     }
 
     public function store(Request $request)
@@ -41,7 +44,9 @@ class PemasukanController extends Controller
 
     public function edit(Pemasukan $pemasukan)
     {
+        if (Auth::check() && Auth::user()->status === 'Bapak/Admin') {
         return view('pemasukan.edit', compact('pemasukan'));
+        }
     }
 
     public function update(Request $request, Pemasukan $pemasukan)

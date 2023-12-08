@@ -10,31 +10,7 @@
 @section('content')
 <body>
     <div class="kuasa">
-    <!-- <table class="data-table">
-    <thead>
-        <tr>
-            <th>Kategori</th>
-            <th>Data</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach($groupedData as $kategori => $data)
-            <tr>
-                <td>{{ $kategori }}</td>
-                <td>
-                    @foreach($data as $item)
-                        <div>
-                            <strong>Nama:</strong> {{ $item->nama }} |
-                            <strong>Jumlah:</strong> {{ $item->jumlah }} |
-                            <strong>Catatan:</strong> {{ $item->catatan }} |
-                            <strong>Tanggal:</strong> {{ $item->tanggal }}
-                        </div>
-                    @endforeach
-                </td>
-            </tr>
-        @endforeach
-    </tbody>
-</table> -->
+    @if(count($groupedData) > 0)
 <table class="data-table">
     <thead>
     @foreach($groupedData as $kategori => $data)
@@ -60,7 +36,9 @@
         @endforeach
     </tbody>
 </table>
-
+@else
+            <h3>Belum ada data</h3>
+        @endif
     </div>
 </body>
 <style>
@@ -93,6 +71,11 @@
 
     .data-table tbody tr:hover {
         background-color: #e0e0e0;
+    }
+
+    h3 {
+        color: #a2a5a6;
+        margin-top: 12rem;
     }
 
      @media only screen and (max-width: 600px) {

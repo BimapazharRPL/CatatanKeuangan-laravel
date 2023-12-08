@@ -7,6 +7,7 @@
 <body>
     <div class="sidebar" id="sidebar">
         <ul>
+            <li><a href="home">Dashboard</a></li>
             <li><a href="pemasukan">Pemasukan</a></li>
             <li><a href="pengeluaran">Pengeluaran</a></li>
             <li><a href="laporan">Laporan</a></li>
@@ -15,8 +16,7 @@
             <li><a href="rencana">Rencana Budget</a></li>
             <li><a href="katagori">Kategori</a></li>
             <li><a href="asset">Asset</a></li>
-            <li><a href=""></a></li>
-            <li><a href=""></a></li>
+            <li><a href="cetak">Cetak</a></li>
         </ul>
     </div>
     <button class="KL" onclick="toggleSidebar()">MENU<br>LAIN</button>

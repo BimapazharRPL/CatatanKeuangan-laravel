@@ -713,3 +713,893 @@ foreach ($groupedData as $tanggal => $data) {
                 @endforeach
             </tbody>
             @endforeach
+
+
+            public function exportPemasukanToExcel()
+    {
+        // Get data from the Pemasukan model
+        $pemasukanData = Pemasukan::all();
+
+        // Transform data as needed
+        $data = [];
+        foreach ($pemasukanData as $pemasukan) {
+            $data[] = [
+                'Nama' => $pemasukan->nama,
+                'Jumlah' => $pemasukan->jumlah,
+                'Catatan' => $pemasukan->catatan,
+                'Tanggal' => $pemasukan->tanggal,
+                'Kategori' => $pemasukan->katagori,
+            ];
+        }
+
+        // Create a new Excel file
+        Excel::create('pemasukan_data', function ($excel) use ($data) {
+            // Set the title for the sheet
+            $excel->setTitle('Pemasukan Data');
+
+            // Add a new sheet with the data
+            $excel->sheet('Sheet 1', function ($sheet) use ($data) {
+                $sheet->fromArray($data, null, 'A1', false, false);
+            });
+        })->export('xlsx'); // Export as Excel file (xlsx format)
+    }
+
+    public function tespdf()
+{
+    $pemasukanData = Pemasukan::all();
+    return response()->json($pemasukanData);
+}
+
+
+
+<script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Fungsi untuk membuat dan mengunduh PDF
+            function generateAndDownloadPDF() {
+                // Membuat instance dari jsPDF
+                const doc = new jsPDF();
+
+                // Mengambil HTML dari elemen dengan class "tabelprint"
+                const element = document.querySelector('.tabelprint');
+
+                // Menambahkan HTML ke dokumen PDF
+                doc.html(element, {
+                    callback: function (doc) {
+                        // Mengunduh dokumen PDF dengan nama "data_pemasukan.pdf"
+                        doc.save('data_pemasukan.pdf');
+                    }
+                });
+            }
+
+            // Mendengarkan klik pada tombol dan memanggil fungsi unduh PDF
+            document.getElementById('downloadPdfButton').addEventListener('click', generateAndDownloadPDF);
+
+            // Panggil fungsi unduh PDF otomatis saat halaman dimuat
+            generateAndDownloadPDF();
+        });
+    </script>
+
+
+     -->
+<!-- <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Print otomatis ketika halaman dimuat
+        window.print();
+
+        // Mendeteksi ketika cetakan selesai atau dibatalkan
+        window.onafterprint = function (event) {
+            // Kembali ke halaman sebelumnya jika cetakan berhasil
+            window.history.back();
+        };
+    });
+</script>
+
+ <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Fungsi untuk memanggil window.print()
+        function printDocument() {
+            // Print otomatis ketika halaman dimuat
+            window.print();
+        }
+
+        // Fungsi untuk mendeteksi selesai atau pembatalan pencetakan
+        function afterPrint(event) {
+            // Kembali ke halaman sebelumnya jika pencetakan berhasil
+            window.history.back();
+        }
+
+        // Mendeteksi ketika pencetakan selesai atau dibatalkan
+        if (window.matchMedia) {
+            var mediaQueryList = window.matchMedia('print');
+            mediaQueryList.addListener(function (mql) {
+                if (!mql.matches) {
+                    // Panggil fungsi setelah pencetakan selesai atau dibatalkan
+                    afterPrint();
+                }
+            });
+        }
+
+        // Panggil fungsi print otomatis saat halaman dimuat
+        printDocument();
+    });
+</script>
+<script>
+     var ctx = document.getElementById('myChart').getContext('2d');
+
+var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: {!! $monthlyDataPengeluaran->keys() !!},
+        datasets: [
+            {
+                label: 'Total Pemasukan per Bulan',
+                data: {!! collect($dataPerBulan)->pluck('total_pemasukan') !!},
+                backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                borderColor: 'rgba(255, 99, 132, 1)',
+                borderWidth: 1
+            },
+            {
+                label: 'Total Pengeluaran per Bulan',
+                data: {!! $monthlyDataPengeluaran->values() !!},
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }
+        ]
+    },
+    options: {
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        },
+        plugins: {
+            zoom: {
+                pan: {
+                    enabled: true,
+                    mode: 'x',
+                },
+                zoom: {
+                    enabled: true,
+                    mode: 'x',
+                }
+            }
+        }
+    }
+});
+ </script>
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Perbulan</title>
+    <link rel="icon" type="image/png" href="gambar/logoku.png">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <!-- <script src="{{ asset('js/custom.js') }}" defer></script> -->
+</head>
+@extends('layouts.master')
+@section('content')
+<body>
+    <div class="kuasa">
+    <div style="width:98%; height:500px;">
+    <canvas id="mychart"></canvas>
+</div>
+<table>
+    <thead>
+        <tr>
+            <th>Bulan</th>
+            <th>Total Pemasukan</th>
+            <th>Total Pengeluaran</th>
+        </tr>
+    </thead>
+    <tbody>
+    @if (!empty($dataPerBulan))
+    @foreach($dataPerBulan as $data)
+            <tr>
+                <td>{{ $data['bulan'] }}</td>
+                <td>{{ $data['total_pemasukan'] ?? 0 }}</td>
+                <td>{{ $data['total_pengeluaran'] ?? 0 }}</td>
+            </tr>
+        @endforeach
+        @else
+            <tr>
+            <td colspan="3" class="text-center">Data Masih Kosong</td>
+            </tr>
+            @endif
+    </tbody>
+</table>
+</div>
+</body>
+<style>
+    .kuasa {
+        width: 60rem;
+        margin: 3rem 1rem;
+    }
+    canvas {
+                    background-color: #ffff;
+                    border-radius: 8px;
+                    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+                    max-width: 100%;
+                    margin-top: 1rem;
+                    width: 700rem;
+                    height: auto;
+                }
+    table {
+        font-family: Arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+        margin-top: 20px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+    }
+
+    th, td {
+        border: 1px solid #dddddd;
+        text-align: center;
+        padding: 8px;
+    }
+
+    th {
+        background-color: aqua;
+        color: black;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    tr:hover {
+        background-color: #e0e0e0;
+    }
+    @media only screen and (max-width: 600px) {
+            .kuasa {
+                width: 27rem;
+                margin: 3rem -15.5rem;
+            }
+            canvas {
+                width: 100%;
+                /* margin: 3rem -8rem; */
+            }
+            table {
+                margin-top: -16rem;
+            }
+        }
+</style>
+<script>
+    // Mendapatkan referensi ke elemen tbody
+    var tableData = document.querySelector('table tbody');
+
+    // Inisialisasi array untuk menyimpan data
+    var labels = [];
+    var totalPemasukan = [];
+    var totalPengeluaran = [];
+
+    // Iterasi melalui setiap baris dalam tbody
+    tableData.querySelectorAll('tr').forEach(function (row) {
+        labels.push(row.cells[0].innerText); // Mengambil data bulan
+        totalPemasukan.push(parseFloat(row.cells[1].innerText)); // Mengambil data total pemasukan
+        totalPengeluaran.push(parseFloat(row.cells[2].innerText)); // Mengambil data total pengeluaran
+    });
+
+    // Menggambar grafik menggunakan data yang diambil
+    var ctx = document.getElementById('mychart').getContext('2d');
+
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [
+                {
+                    label: 'Total Pemasukan per Bulan',
+                    data: totalPemasukan,
+                    backgroundColor: '#2c3e50',
+                    borderColor: 'black',
+                    borderWidth: 1
+                },
+                {
+                    label: 'Total Pengeluaran per Bulan',
+                    data: totalPengeluaran,
+                    backgroundColor: 'rgba(255, 0, 0, 0.6)',
+                    borderColor: 'red',
+                    borderWidth: 1
+                }
+            ]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            },
+            plugins: {
+                zoom: {
+                    pan: {
+                        enabled: true,
+                        mode: 'x',
+                    },
+                    zoom: {
+                        enabled: true,
+                        mode: 'x',
+                    }
+                }
+            }
+        }
+    });
+</script>
+
+</html>
+@endsection
+
+
+//di bawah ini adalah codingan file bulan
+<?php
+use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
+
+// Ambil data pengeluaran
+$pengeluaranData = DB::table('pengeluarans')
+    ->selectRaw('MONTH(tanggal) as bulan, SUM(jumlah) as total_pengeluaran')
+    ->groupBy('bulan');
+
+// Ambil data pemasukan
+$pemasukanData = DB::table('pemasukans')
+    ->selectRaw('MONTH(tanggal) as bulan, SUM(jumlah) as total_pemasukan')
+    ->groupBy('bulan');
+
+// Ambil data bulanan untuk pengeluaran
+$monthlyDataPengeluaran = $pengeluaranData->get();
+
+// Ambil data bulanan untuk pemasukan
+$monthlyDataPemasukan = $pemasukanData->get();
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Perbulan</title>
+    <link rel="icon" type="image/png" href="gambar/logoku.png">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <!-- <script src="{{ asset('js/custom.js') }}" defer></script> -->
+</head>
+@extends('layouts.master')
+@section('content')
+<body>
+    <div class="kuasa">
+    <div style="width:98%; height:500px;">
+    <canvas id="mychart"></canvas>
+</div>
+<table>
+    <thead>
+        <tr>
+            <th>Bulan</th>
+            <th>Total Pemasukan</th>
+            <th>Total Pengeluaran</th>
+        </tr>
+    </thead>
+    <tbody>
+    @if (!empty($dataPerBulan))
+    @foreach($dataPerBulan as $data)
+            <tr>
+                <td>{{ $data['bulan'] }}</td>
+                <td>{{ $data['total_pemasukan'] ?? 0 }}</td>
+                <td>{{ $data['total_pengeluaran'] ?? 0 }}</td>
+            </tr>
+        @endforeach
+        @else
+            <tr>
+            <td colspan="3" class="text-center">Data Masih Kosong</td>
+            </tr>
+            @endif
+    </tbody>
+</table>
+</div>
+</body>
+<style>
+    .kuasa {
+        width: 60rem;
+        margin: 3rem 1rem;
+    }
+    canvas {
+                    background-color: #ffff;
+                    border-radius: 8px;
+                    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+                    max-width: 100%;
+                    margin-top: 1rem;
+                    width: 700rem;
+                    height: auto;
+                }
+    table {
+        font-family: Arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+        margin-top: 20px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+    }
+
+    th, td {
+        border: 1px solid #dddddd;
+        text-align: center;
+        padding: 8px;
+    }
+
+    th {
+        background-color: aqua;
+        color: black;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    tr:hover {
+        background-color: #e0e0e0;
+    }
+    @media only screen and (max-width: 600px) {
+            .kuasa {
+                width: 27rem;
+                margin: 3rem -15.5rem;
+            }
+            canvas {
+                width: 100%;
+                /* margin: 3rem -8rem; */
+            }
+            table {
+                margin-top: -16rem;
+            }
+        }
+</style>
+<script>
+    // Mendapatkan data dari server
+    var labels = {!! json_encode($monthlyDataPemasukan->pluck('bulan')) !!};
+    var totalPemasukan = {!! json_encode($monthlyDataPemasukan->pluck('total_pemasukan')) !!};
+    var totalPengeluaran = {!! json_encode($monthlyDataPengeluaran->pluck('total_pengeluaran')) !!};
+
+    // Menggambar grafik menggunakan data yang diambil
+    var ctx = document.getElementById('mychart').getContext('2d');
+
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [
+                {
+                    label: 'Total Pemasukan per Bulan',
+                    data: totalPemasukan,
+                    backgroundColor: '#2c3e50',
+                    borderColor: 'black',
+                    borderWidth: 1
+                },
+                {
+                    label: 'Total Pengeluaran per Bulan',
+                    data: totalPengeluaran,
+                    backgroundColor: 'rgba(255, 0, 0, 0.6)',
+                    borderColor: 'red',
+                    borderWidth: 1
+                }
+            ]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            },
+            plugins: {
+                zoom: {
+                    pan: {
+                        enabled: true,
+                        mode: 'x',
+                    },
+                    zoom: {
+                        enabled: true,
+                        mode: 'x',
+                    }
+                }
+            }
+        }
+    });
+</script>
+
+
+</html>
+@endsection
+//sampai sini codingan file bulan
+
+
+document.getElementById('searchForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            const query = document.querySelector('input[name="query"]').value;
+
+            fetch(`/search-global?query=${query}`)
+                .then(response => response.json())
+                .then(data => {
+                    displaySearchResults(data);
+                });
+        });
+
+        function displaySearchResults(data) {
+            searchResults.innerHTML = '';
+
+            for (const [model, results] of Object.entries(data)) {
+                const resultSection = document.createElement('div');
+                resultSection.innerHTML = `<h3>${model}</h3>`;
+                
+                results.forEach(result => {
+                    const resultItem = document.createElement('div');
+                    resultItem.innerHTML = `<p>${result.nama}</p>`;
+                    
+                    resultItem.addEventListener('click', function () {
+                        alert(`Anda memilih ${model} dengan nama ${result.nama}`);
+                    });
+
+                    resultSection.appendChild(resultItem);
+                });
+
+                searchResults.appendChild(resultSection);
+            }
+        }
+
+        // codingan di halaman dashboard
+        <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard</title>
+  <link rel="icon" href="gambar/logoku.png">
+</head>
+<body>
+@extends('layouts.master')
+@section('content')
+
+<form id="searchForm">
+            <input type="text" name="query" placeholder="Cari...">
+            <button type="submit">Cari</button>
+          </form>
+
+        <!-- Hasil Pencarian -->
+        <div id="searchResults"></div> 
+          <div class="xv">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="aqua" fill-opacity="1" d="M0,32L40,48C80,64,160,96,240,112C320,128,400,128,480,112C560,96,640,64,720,74.7C800,85,880,139,960,170.7C1040,203,1120,213,1200,224C1280,235,1360,245,1400,250.7L1440,256L1440,320L1400,320C1360,320,1280,320,1200,320C1120,320,1040,320,960,320C880,320,800,320,720,320C640,320,560,320,480,320C400,320,320,320,240,320C160,320,80,320,40,320L0,320Z"></path></svg>
+         
+        </div>
+        <script>
+        document.getElementById('searchForm').addEventListener('submit', function (event) {
+    event.preventDefault();
+
+    const query = document.querySelector('input[name="query"]').value;
+
+    fetch(`/search-global?query=${query}`)
+        .then(response => response.json())
+        .then(data => {
+            displaySearchResults(data);
+        });
+});
+
+function displaySearchResults(data) {
+    searchResults.innerHTML = '';
+
+    // Membuat elemen tabel
+    const table = document.createElement('table');
+    table.border = '1'; // Menambah border untuk tabel (opsional)
+
+    // Iterasi melalui hasil pencarian dan tambahkan ke tabel
+    for (const [model, results] of Object.entries(data)) {
+        results.forEach(result => {
+            // Membuat elemen baris tabel
+            const row = table.insertRow();
+
+            // Menambahkan data ke dalam sel-sel tabel
+            for (const key in result) {
+                const cell = row.insertCell();
+                cell.innerHTML = result[key];
+            }
+
+            // Tangani klik pada hasil pencarian
+            row.addEventListener('click', function () {
+                alert(`Anda memilih ${model} dengan nama ${result.nama}`);
+            });
+        });
+    }
+
+    // Menambahkan tabel ke dalam div dengan id 'searchResults'
+    searchResults.appendChild(table);
+}
+
+    </script>
+          <style>
+            #searchForm{
+              margin: 18rem 20rem ;
+              width: 100%;
+            }
+            .xv {
+              height: 100rem;
+              width: 80rem;
+              position: fixed;
+              margin: 18rem -5rem ;
+              z-index: -999;
+            }
+            @media only screen and (max-width: 600px) {
+                .xv {
+                  margin: 18rem -19rem ;
+                }
+           }
+          </style>
+           @endsection
+      </body>
+</html>
+
+// codingan di controller hutang 
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Hutang;
+use Illuminate\Http\Request;
+
+class HutangController extends Controller
+{
+    public function index()
+    {
+        $hutangs = Hutang::all();
+        return view('hutang.index', compact('hutangs'));
+    }
+
+    public function create()
+    {
+        return view('hutang.create');
+    }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'nama' => 'required|string',
+            'jumlah' => 'required|integer',
+            'catatan' => 'required|string',
+            'tgl_hutang' => 'required|date',
+            'tgl_jthtempo' => 'required|date',
+        ]);
+
+        Hutang::create($request->all());
+
+        return redirect()->route('hutang.index')
+            ->with('success', 'Hutang berhasil ditambahkan');
+    }
+
+    public function show(Hutang $hutang)
+    {
+        return view('hutang.show', compact('hutang'));
+    }
+
+    public function edit(Hutang $hutang)
+    {
+        return view('hutang.edit', compact('hutang'));
+    }
+
+    public function update(Request $request, Hutang $hutang)
+    {
+        $request->validate([
+            'nama' => 'required|string',
+            'jumlah' => 'required|integer',
+            'catatan' => 'required|string',
+            'tgl_hutang' => 'required|date',
+            'tgl_jthtempo' => 'required|date',
+        ]);
+
+        $hutang->update($request->all());
+
+        return redirect()->route('hutang.index')
+            ->with('success', 'Hutang berhasil diperbarui');
+    }
+
+    public function destroy(Hutang $hutang)
+    {
+        $hutang->delete();
+
+        return redirect()->route('hutang.index')
+            ->with('success', 'Hutang berhasil dihapus');
+    }
+
+}         
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="aqua" fill-opacity="1" d="M0,32L40,48C80,64,160,96,240,112C320,128,400,128,480,112C560,96,640,64,720,74.7C800,85,880,139,960,170.7C1040,203,1120,213,1200,224C1280,235,1360,245,1400,250.7L1440,256L1440,320L1400,320C1360,320,1280,320,1200,320C1120,320,1040,320,960,320C880,320,800,320,720,320C640,320,560,320,480,320C400,320,320,320,240,320C160,320,80,320,40,320L0,320Z"></path></svg>
+@media only screen and (max-width: 600px) {
+              svg {
+                right: -19rem;
+              }
+              .pencar {
+                margin: 7rem -13rem;
+            }
+              #searchForm {
+                display: flex;
+                width: 10rem;
+                text-align: center;
+              }
+              /* table {
+                width: 10rem;
+                right: 0;
+                left: 0;
+                margin: ;
+            } */
+           
+
+              /* #searchForm input[type="text"] {
+                  width: 100%;
+                  margin-bottom: 10px;
+                  border-radius: 5px;
+              } */
+                      }
+
+                      //script pencarian
+                       <script>
+        document.getElementById('searchForm').addEventListener('submit', function (event) {
+    event.preventDefault();
+
+    const query = document.querySelector('input[name="query"]').value;
+
+    fetch(`/search-global?query=${query}`)
+        .then(response => response.json())
+        .then(data => {
+            displaySearchResults(data);
+        });
+      });
+
+function displaySearchResults(data) {
+    searchResults.innerHTML = '';
+
+    // Membuat elemen tabel
+    const table = document.createElement('table');
+    table.border = '1'; // Menambah border untuk tabel (opsional)
+
+    // Iterasi melalui hasil pencarian dan tambahkan ke tabel
+    for (const [model, results] of Object.entries(data)) {
+        results.forEach(result => {
+            // Membuat elemen baris tabel
+            const row = table.insertRow();
+
+            // Menambahkan data ke dalam sel-sel tabel
+            for (const key in result) {
+                // Memeriksa apakah key bukan created_at dan updated_at
+                if (key !== 'created_at' && key !== 'updated_at') {
+                    const cell = row.insertCell();
+                    cell.innerHTML = result[key];
+                }
+            }
+
+            // Tangani klik pada hasil pencarian
+            row.addEventListener('click', function () {
+                
+            });
+        });
+    }
+
+    // Menambahkan tabel ke dalam div dengan id 'searchResults'
+    searchResults.appendChild(table);
+}
+
+    </script>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <!-- Set your own client ID -->
+    <meta name="google-signin-client_id" content="YOUR_CLIENT_ID">
+    <script>
+        window.fbAsyncInit = function() {
+            FB.init({
+                appId      : 'your-app-id',
+                cookie     : true,
+                xfbml      : true,
+                version    : 'v12.0'
+            });
+
+            FB.AppEvents.logPageView();
+        };
+
+        (function(d, s, id){
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) {return;}
+            js = d.createElement(s); js.id = id;
+            js.src = "https://connect.facebook.net/en_US/sdk.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+    </script>
+    // Callback function when sign-in is successful
+        function onSignIn(googleUser) {
+            // Get user details
+            var profile = googleUser.getBasicProfile();
+            console.log('ID: ' + profile.getId()); // Do something with the user ID
+            console.log('Name: ' + profile.getName()); // Do something with the user's name
+            console.log('Email: ' + profile.getEmail()); // Do something with the user's email
+
+            // You can send the user data to your server for authentication or further processing
+            // Example: Send the ID token to your server
+            var id_token = googleUser.getAuthResponse().id_token;
+            console.log('ID Token: ' + id_token);
+            
+            // Now you can handle the user authentication on your server
+            // Send the 'id_token' to your server using AJAX or another method
+        }
+
+        //login dengan facebook
+
+         function checkLoginState() {
+            FB.getLoginStatus(function(response) {
+                statusChangeCallback(response);
+            });
+        }
+
+        function statusChangeCallback(response) {
+            if (response.status === 'connected') {
+                // User is logged into Facebook and your app.
+                console.log('Logged in with Facebook!');
+                console.log(response.authResponse.accessToken);
+
+                // Add your logic for handling the logged-in user here
+            } else {
+                // User is not logged into Facebook or your app.
+                console.log('Not logged in with Facebook!');
+            }
+        }
+        <!-- <script type="module">
+    function signInWithGoogle() {
+  const provider = new GoogleAuthProvider();
+  signInWithPopup(auth, provider)
+    .then((result) => {
+      const user = result.user;
+      console.log(user);
+      // Handle user data, e.g., send it to your Laravel backend
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+}
+
+function signInWithFacebook() {
+  const provider = new FacebookAuthProvider();
+  signInWithPopup(auth, provider)
+    .then((result) => {
+      const user = result.user;
+      console.log(user);
+      // Handle user data, e.g., send it to your Laravel backend
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+}
+
+    </script> -->
+
+    <th colspan="3" style="text-align: center;">
+    @php
+        $namaHari = $totals[$tanggal]['hari'];
+        switch ($namaHari) {
+            case 'Monday':
+                echo 'Senin';
+                break;
+            case 'Tuesday':
+                echo 'Selasa';
+                break;
+            case 'Wednesday':
+                echo 'Rabu';
+                break;
+            case 'Thursday':
+                echo 'Kamis';
+                break;
+            case 'Friday':
+                echo 'Jum\'at';
+                break;
+            case 'Saturday':
+                echo 'Sabtu';
+                break;
+            case 'Sunday':
+                echo 'Minggu';
+                break;
+            default:
+                echo $namaHari; // Jika tidak cocok, tampilkan nilai aslinya
+        }
+    @endphp
+    {{ $tanggal }}
+</th>

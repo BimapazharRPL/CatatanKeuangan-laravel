@@ -21,17 +21,19 @@
         </tr>
     </thead>
     <tbody>
-        @forelse($pemasukanTahun as $data)
+    @if (!empty($dataPerTahun))
+    @foreach($dataPerTahun as $data)
             <tr>
-                <td>{{ $data->tahun }}</td>
-                <td>{{ $data->total_pemasukan }}</td>
-                <td>{{ $pengeluaranTahun->where('tahun', $data->tahun)->first()->total_pengeluaran ?? 0 }}</td>
+                <td>{{ $data['tahun'] }}</td>
+                <td>{{ $data['total_pemasukan'] ?? 0 }}</td>
+                <td>{{ $data['total_pengeluaran'] ?? 0 }}</td>
             </tr>
-        @empty
+        @endforeach
+        @else
             <tr>
-                <td colspan="3" style="text-align: center;">Data Masih Kosong</td>
+            <td colspan="3" class="text-center">Data Masih Kosong</td>
             </tr>
-        @endforelse
+            @endif
     </tbody>
 </table>
 

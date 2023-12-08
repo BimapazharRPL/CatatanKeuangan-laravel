@@ -8,7 +8,7 @@
     <link rel="icon" type="image/png" href="{{ asset('gambar/logoku.png') }}">
 </head>
 
-<body>
+<body >
     <div class="header">
         <img src="{{ asset('gambar/logonama.png') }}" alt="">
         <div class="akses">
@@ -20,13 +20,26 @@
         <img id="gambarContainer" src="" alt="Gambar Sesuai Waktu">
         <h1 id="salam"></h1>
     </div>
+    <div class="fitur">
+        <h1>Fitur</h1>
+        <div class="lain">
+        <p>Pencatatan transaksi<br>atau pengeluaran</p>
+        <p>Pengelompokan<br>kategori</p>
+        <p>Pencatatan pemasukan</p>
+        <p>Pencatatan hutang<br>dan piutang</p>
+        <p>Menuntukan anggaran</p>
+        <p>Pemantauan anggaran</p>
+        <p>Laporan keuangan</p>
+        <p>Pengingat pembayaran<br>hutang dan piutang</p>
+        </div>
+    </div>
 </body>
 
 <style>
     body {
         margin: 0;
         padding: 0;
-        background-color: #f1f1f1;
+        background-color: #ffffff;
     }
 
     .header {
@@ -70,6 +83,26 @@
         margin-top: -1rem;
         object-fit: cover;
     }
+    
+    .fitur{
+        background: linear-gradient(to bottom, #ffffff, #00ffff, #000000);
+        height: 20rem;
+        /* bottom: 19rem; */
+    }
+
+    .lain {
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        margin-top: -29rem;
+    }
+
+    h1 {
+        margin :30rem 2rem;
+        /* margin-bottom: 19rem; */
+    }
+
+   
 
     @media only screen and (max-width: 600px) {
         .header {
@@ -88,17 +121,31 @@
             margin-right: 19px;
         }
         #salam {
-        margin-top: -13rem;
-        color: #000;
-        font-size: 3rem;
-        text-align: center;
+            margin-top: -13rem;
+            color: #000;
+            font-size: 3rem;
+            text-align: center;
         }
         #gambarContainer {
         width: 100%;
         margin-top: -2rem;
         object-fit: cover;
          }
+
+         .fitur {
+            height: 20rem;
+         }
+         .lain {
+            display: flex;
+            flex-wrap: wrap;
+            margin-top: -10rem;
+         }
+         h1 {
+             margin :11rem 2rem;
+        }
     }
+
+    
 </style>
 
 <script>

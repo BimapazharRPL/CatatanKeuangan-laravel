@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Pengeluaran;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PengeluaranController extends Controller
 {
@@ -15,7 +16,9 @@ class PengeluaranController extends Controller
 
     public function create()
     {
+        if (Auth::check() && in_array(Auth::user()->status, ['Bapak/Admin', 'Ibu/Anggota'])) {
         return view('pengeluaran.create');
+        }
     }
 
     public function store(Request $request)
@@ -41,7 +44,9 @@ class PengeluaranController extends Controller
 
     public function edit(Pengeluaran $pengeluaran)
     {
+        if (Auth::check() && in_array(Auth::user()->status, ['Bapak/Admin', 'Ibu/Anggota'])) {
         return view('pengeluaran.edit', compact('pengeluaran'));
+        }
     }
 
     public function update(Request $request, Pengeluaran $pengeluaran)

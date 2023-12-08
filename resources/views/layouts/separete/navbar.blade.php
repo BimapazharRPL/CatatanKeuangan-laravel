@@ -10,7 +10,7 @@
 <div class="navbar">
   <a href="hari">Hari</a>
   <a href="minggu">Minggu</a>
-  <a href="bulan">Bulan</a>
+  <a href="bulann">Bulan</a>
   <a href="tahun">Tahun</a>
   
 </div>

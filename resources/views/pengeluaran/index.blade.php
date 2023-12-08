@@ -14,14 +14,15 @@
     
 <div class="ab">
 <h1>Pengeluaran</h1>
+@if(Auth::check() && (Auth::user()->status == 'Bapak/Admin' || Auth::user()->status == 'Ibu/Anggota'))
 <a href="{{ route('pengeluaran.create') }}" class="btn btn-primary mb-3">+ Create New pengeluaran</a>
+@endif
 <table class="table table-head-fixed text-nowrap">
     <thead>
         <tr>
             <th>No</th>
             <th>Nama</th>
             <th>Jumlah</th>
-            <th>Catatan</th>
             <th>Tanggal</th>
             <th>Kategori</th>
             <th>Action</th>
@@ -33,17 +34,18 @@
             <td>{{ $key + 1 }}</td>
             <td>{{ $pengeluaran->nama }}</td>
             <td>{{ $pengeluaran->jumlah }}</td>
-            <td>{{ $pengeluaran->catatan }}</td>
             <td>{{ $pengeluaran->tanggal }}</td>
             <td>{{ $pengeluaran->katagori }}</td>
             <td>
-                <!-- <a href="{{ route('pengeluaran.show', $pengeluaran->id) }}" class="btn btn-sm btn-info">Show</a> -->
+                <a href="{{ route('pengeluaran.show', $pengeluaran->id) }}" class="btn btn-sm btn-info">Show</a>
+                @if(Auth::check() && (Auth::user()->status == 'Bapak/Admin' || Auth::user()->status == 'Ibu/Anggota'))
                 <a href="{{ route('pengeluaran.edit', $pengeluaran->id) }}" class="btn btn-sm btn-warning">Edit</a>
                 <form action="{{ route('pengeluaran.destroy', $pengeluaran->id) }}" method="POST" style="display: inline-block;">
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="btn btn-sm btn-danger">Delete</button>
                 </form>
+                @endif
             </td>
         </tr>
         @empty
@@ -76,7 +78,7 @@
 
         h1 {
             color: #333;
-            font-family: fantasy;
+            font-family: Monaco;
         }
 
         a {
@@ -146,6 +148,19 @@
 
         .btn-danger:hover {
             background-color: #bd2130;
+        }
+
+        .btn-info {
+            color: #fff;
+            background-color: #17a2b8;
+            border-color: #17a2b8;
+        }
+
+        .btn-info:hover {
+            color: #fff;
+            text-decoration: none;
+            background-color: #138496;
+            border-color: #117a8b;
         }
 
         .text-center {
