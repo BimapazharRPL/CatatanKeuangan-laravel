@@ -84,6 +84,8 @@
         width: 26rem;
     }
         .data-table {
+            margin-top : 2rem;
+            
             width: 100%;
         }
         .data-table th, .data-table td {

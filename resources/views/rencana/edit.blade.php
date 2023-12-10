@@ -20,14 +20,14 @@
         <input type="number" id="jumlah" name="jumlah" placeholder="input jumlah" value="{{ old('jumlah') ?? $rencana->jumlah }}" required>
         </div>
         <div>
-        <label for="event">Catatan :</label>
+        <label for="event">Event :</label>
         <input type="text" id="event" name="event" value="{{ old('event') ?? $rencana->event }}" required>
         </div>
         <div>
         <label for="katagori">katagori :</label>
-        <select name="katagori" id="katagori" value="{{ old('katagori') ?? $rencana->katagori }}" required>
-        <option value="Pemasukan">Pemasukan</option>   
-        <option value="Pengeluaran">Pengeluaran</option>
+        <select name="katagori" id="katagori" required>
+            <option value="Pemasukan" {{ (old('katagori') ?? $rencana->katagori) == 'Pemasukan' ? 'selected' : '' }}>Pemasukan</option>   
+            <option value="Pengeluaran" {{ (old('katagori') ?? $rencana->katagori) == 'Pengeluaran' ? 'selected' : '' }}>Pengeluaran</option>
         </select>
         </div>
 

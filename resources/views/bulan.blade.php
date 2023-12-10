@@ -72,7 +72,7 @@ foreach ($allMonths as $monthNumber => $monthName) {
         @endforeach
     </select>
     <button onclick="changeYear()">Ganti Tahun</button> -->
-<table>
+<table class="tabel">
     <thead>
         <tr>
             <th>Bulan</th>
@@ -112,7 +112,7 @@ foreach ($allMonths as $monthNumber => $monthName) {
                     width: 700rem;
                     height: auto;
                 }
-    table {
+    .tabel {
         font-family: Arial, sans-serif;
         border-collapse: collapse;
         width: 100%;
@@ -147,7 +147,7 @@ foreach ($allMonths as $monthNumber => $monthName) {
                 width: 100%;
                 /* margin: 3rem -8rem; */
             }
-            table {
+            .tabel {
                 margin-top: -16rem;
             }
         }

@@ -21,6 +21,9 @@ use App\Models\Pengeluaran;
 use App\Models\Hutang;
 use App\Models\Piutang;
 
+// Set zona waktu ke "Asia/Jakarta"
+date_default_timezone_set('Asia/Jakarta');
+
 $data1 = Pemasukan::all();
 $totalPemasukan = 0;
 

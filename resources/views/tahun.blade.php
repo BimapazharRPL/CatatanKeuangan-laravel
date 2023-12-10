@@ -12,7 +12,7 @@
 <body>
     <div class="av">
     <!-- <canvas id="myChart" width="400" height="200"></canvas> -->
-    <table>
+    <table class="table">
     <thead>
         <tr>
             <th>Tahun</th>
@@ -71,7 +71,7 @@
         width: 58.8rem;
         margin: 3rem 1rem;
     }
-    table {
+    .table {
         font-family: Arial, sans-serif;
         border-collapse: collapse;
         width: 100%;

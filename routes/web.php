@@ -14,6 +14,7 @@ use App\Http\Controllers\RencanaBudgetController;
 use App\Http\Controllers\AssetController;
 use App\Http\Controllers\TahunController;
 use App\Http\Controllers\ExportController;
+use App\Http\Controllers\ExcelController;
 // use Illuminate\Support\Facades\View;
 use App\Http\Controllers\SearchController;
 use App\Models\User;
@@ -172,3 +173,4 @@ Route::get('/auth/google/callback', function () {
 
 //     return redirect('/dashboard');
 // });
+Route::get('/export', [ExcelController::class, 'export']);

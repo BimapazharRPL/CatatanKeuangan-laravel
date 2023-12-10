@@ -169,7 +169,7 @@
             tr:hover {
                 background-color: #2c3e50;;
                 color: #fff;
-                cursor: pointer;
+                /* cursor: pointer; */
                 transition: background-color 0.3s ease;
             }
             @media only screen and (max-width: 600px) {

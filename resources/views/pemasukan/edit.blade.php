@@ -29,17 +29,17 @@
         </div>
         <div>
         <label for="katagori">katagori :</label>
-        <select name="katagori" id="katagori" value="{{ old('katagori') ?? $pemasukan->katagori }}" required>
-        <option value="Gaji">Gaji</option>   
-        <option value="Bonus">Bonus</option>
-        <option value="Deposito">Deposito</option>
-        <option value="Penghargaan">Penghargaan</option>
-        <option value="Investasi">Investasi</option>
-        <option value="Dana pensiun">Dana pensiun</option>
-        <option value="Hadiah">Hadiah</option>
-        <option value="Warisan">Warisan</option>
-        <option value="Dividen">Dividen</option>
-        <option value="Lainnya">Lainnya</option>
+        <select name="katagori" id="katagori" required>
+            <option value="Gaji" {{ (old('katagori') ?? $pemasukan->katagori) == 'Gaji' ? 'selected' : '' }}>Gaji</option>   
+            <option value="Bonus" {{ (old('katagori') ?? $pemasukan->katagori) == 'Bonus' ? 'selected' : '' }}>Bonus</option>
+            <option value="Deposito" {{ (old('katagori') ?? $pemasukan->katagori) == 'Deposito' ? 'selected' : '' }}>Deposito</option>
+            <option value="Penghargaan" {{ (old('katagori') ?? $pemasukan->katagori) == 'Penghargaan' ? 'selected' : '' }}>Penghargaan</option>
+            <option value="Investasi" {{ (old('katagori') ?? $pemasukan->katagori) == 'Investasi' ? 'selected' : '' }}>Investasi</option>
+            <option value="Dana pensiun" {{ (old('katagori') ?? $pemasukan->katagori) == 'Dana pensiun' ? 'selected' : '' }}>Dana pensiun</option>
+            <option value="Hadiah" {{ (old('katagori') ?? $pemasukan->katagori) == 'Hadiah' ? 'selected' : '' }}>Hadiah</option>
+            <option value="Warisan" {{ (old('katagori') ?? $pemasukan->katagori) == 'Warisan' ? 'selected' : '' }}>Warisan</option>
+            <option value="Dividen" {{ (old('katagori') ?? $pemasukan->katagori) == 'Dividen' ? 'selected' : '' }}>Dividen</option>
+            <option value="Lainnya" {{ (old('katagori') ?? $pemasukan->katagori) == 'Lainnya' ? 'selected' : '' }}>Lainnya</option>
         </select>
         </div>
 

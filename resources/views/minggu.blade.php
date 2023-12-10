@@ -51,7 +51,7 @@ foreach ($pengeluaranMinggu as $pengeluaran) {
     <div style="width:98%; height:500px;">
     <canvas id="myChart"></canvas>
 </div>
-<table>
+<table class="tabel">
     <thead>
         <tr>
             <th>Minggu</th>
@@ -96,7 +96,7 @@ foreach ($pengeluaranMinggu as $pengeluaran) {
                     width: 700rem;
                     height: auto;
                 }
-    table {
+    .tabel {
         font-family: Arial, sans-serif;
         border-collapse: collapse;
         width: 100%;
@@ -132,7 +132,7 @@ foreach ($pengeluaranMinggu as $pengeluaran) {
             canvas {
                 margin-right: -9rem;
             }
-            table {
+            .tabel {
                 margin-top: -10rem;
             }
         }

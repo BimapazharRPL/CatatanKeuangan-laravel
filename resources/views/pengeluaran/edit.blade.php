@@ -29,18 +29,18 @@
         </div>
         <div>
         <label for="katagori">katagori :</label>
-        <select name="katagori" id="katagori" value="{{ old('katagori') ?? $pengeluaran->katagori }}" required>
-        <option value="Kebutuhan pokok">Kebutuhan pokok</option>   
-        <option value="Biaya">Biaya</option>
-        <option value="Kerugian">Kerugian</option>
-        <option value="Beli asset">Beli asset</option>
-        <option value="Pajak">Pajak</option>
-        <option value="Tagihan">Tagihan</option>
-        <option value="Transportasi">Transportasi</option>
-        <option value="Hiburan">Hiburan</option>
-        <option value="Belanja">Belanja</option>
-        <option value="Lainnya">Lainnya</option>
-        </select>
+        <select name="katagori" id="katagori" required>
+    <option value="Kebutuhan pokok" {{ (old('katagori') ?? $pengeluaran->katagori) == 'Kebutuhan pokok' ? 'selected' : '' }}>Kebutuhan pokok</option>   
+    <option value="Biaya" {{ (old('katagori') ?? $pengeluaran->katagori) == 'Biaya' ? 'selected' : '' }}>Biaya</option>
+    <option value="Kerugian" {{ (old('katagori') ?? $pengeluaran->katagori) == 'Kerugian' ? 'selected' : '' }}>Kerugian</option>
+    <option value="Beli asset" {{ (old('katagori') ?? $pengeluaran->katagori) == 'Beli asset' ? 'selected' : '' }}>Beli asset</option>
+    <option value="Pajak" {{ (old('katagori') ?? $pengeluaran->katagori) == 'Pajak' ? 'selected' : '' }}>Pajak</option>
+    <option value="Tagihan" {{ (old('katagori') ?? $pengeluaran->katagori) == 'Tagihan' ? 'selected' : '' }}>Tagihan</option>
+    <option value="Transportasi" {{ (old('katagori') ?? $pengeluaran->katagori) == 'Transportasi' ? 'selected' : '' }}>Transportasi</option>
+    <option value="Hiburan" {{ (old('katagori') ?? $pengeluaran->katagori) == 'Hiburan' ? 'selected' : '' }}>Hiburan</option>
+    <option value="Belanja" {{ (old('katagori') ?? $pengeluaran->katagori) == 'Belanja' ? 'selected' : '' }}>Belanja</option>
+    <option value="Lainnya" {{ (old('katagori') ?? $pengeluaran->katagori) == 'Lainnya' ? 'selected' : '' }}>Lainnya</option>
+</select>
         </div>
 
         <button type="submit">Update data</button>

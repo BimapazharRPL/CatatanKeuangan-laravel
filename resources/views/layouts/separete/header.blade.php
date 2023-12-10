@@ -209,6 +209,17 @@ $hari1 = date("Y-m-d");
         left: 75%;
         top: 23%;
     }
+    .not {
+        top: -12rem;
+        margin-left: -0.1rem ;    
+        }
+    /* th, td {
+        padding: 6px; 
+        font-size: 14px; 
+     } */
+
+
+    
 }
 </style>
 <script>

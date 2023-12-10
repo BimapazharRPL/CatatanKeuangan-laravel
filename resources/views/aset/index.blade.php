@@ -111,7 +111,7 @@
     .yahh {
         width: 30%;
     }
-    table {
+    .table {
         width: 100%;
         border-collapse: collapse;
         margin: 20px 0;
